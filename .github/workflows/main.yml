@@ -7,14 +7,12 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-
-      - name: Get TAG
-        id: get_tag
-        run: echo TAG=${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -32,7 +30,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64,linux/arm/v6,linux/arm64,windows/amd64
+          build-args: |
+            FRP_VER=0.51.3
+            GOTEMP_VER=3.11.3
+            FRP_MULTIUSER_VER=0.0.2
+            FRP_ALLOWED_PORTS_VER=1.0.2
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            hanbaobao2005/frps:${{ env.TAG }}
+          tags: hanbaobao2005/frps:${{ steps.date.outputs.date }}
