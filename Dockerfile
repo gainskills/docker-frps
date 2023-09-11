@@ -7,7 +7,7 @@ ARG BUILDPLATFORM \
     TARGETARCH=amd64 \
     FRP_VER=0.51.3 \
     GOTEMP_VER=3.11.3 \
-    FRP_MULTIUSER_VER=0.0.2 \
+    FRP_MULTIUSER_VER=0.0.3 \
     FRP_ALLOWED_PORTS_VER=1.0.2
     # GO_ACME_LEGO_VER=4.9.0
 
@@ -29,12 +29,10 @@ RUN apk update && apk upgrade --no-cache && \
     wget https://github.com/hairyhenderson/gomplate/releases/download/v${GOTEMP_VER}/gomplate_${TARGETOS}-${TARGETARCH}-slim -O /usr/local/bin/gotemp && \
     chmod +x /usr/local/bin/gotemp && \
     echo "download fp-multiuser" && \
-    wget https://github.com/gofrp/fp-multiuser/releases/download/v${FRP_MULTIUSER_VER}/fp-multiuser-${TARGETOS}-${TARGETARCH} -O /usr/local/bin/fp-multiuser && \
+    wget https://github.com/gainskills/fp-multiuser/releases/download/v${FRP_MULTIUSER_VER}/fp-multiuser_${TARGETOS}_${TARGETARCH}.tar.gz && \
+    tar -xvf fp-multiuser_${TARGETOS}_${TARGETARCH}.tar.gz && \
+    mv ./fp-multiuser_${TARGETOS}_${TARGETARCH}/fp-multiuser /usr/local/bin/fp-multiuser && \
     chmod +x /usr/local/bin/fp-multiuser
-    # Using self build bin file due to unable to run git one
-    # echo "download frp_plugin_allowed_ports" && \
-    # wget https://github.com/Parmicciano/frp_plugin_allowed_ports/releases/download/Release/frp_plugin_allowed_ports -O /usr/local/bin/frp_allowed_ports && \
-    # chmod +x /usr/local/bin/frp_allowed_ports
     # TO DO
     # echo "download go-acme lego" && mkdir /lego && cd /lego && \
     # wget https://github.com/go-acme/lego/releases/download/v${GO_ACME_LEGO_VER}/lego_v${GO_ACME_LEGO_VER}_${TARGETOS}_${TARGETARCH}.tar.gz -O /lego/lego.tar.gz && \
