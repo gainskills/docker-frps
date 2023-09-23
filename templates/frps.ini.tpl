@@ -19,7 +19,10 @@ kcp_bind_port = {{getenv "FRPS_KCP_PORT" }}
 # if you want to support virtual host, you must set the http port for listening (optional)
 # Note: http port and https port can be same with bind_port
 vhost_http_port = {{getenv "FRPS_VHOST_HTTP_PORT" "80" }} 
-vhost_https_port = {{getenv "FRPS_VHOST_HTTPS_PORT" "443" }}
+
+{{if env.Getenv "FRPS_VHOST_HTTPS_PORT" }}
+vhost_https_port = {{getenv "FRPS_VHOST_HTTPS_PORT" }}
+{{end}}
 
 # response header timeout(seconds) for vhost http server, default is 60s
 # vhost_http_timeout = 60
@@ -41,7 +44,12 @@ log_level = {{getenv "FRPS_LOG_LEVEL" "warn" }}
 log_max_days = {{getenv "FRPS_LOG_DAYS" "5" }}
 {{end}}
 
+{{if env.Getenv "FRPS_AUTH_TOKEN" }}
+authentication_method = token
 token = {{getenv "FRPS_AUTH_TOKEN" "abcdefghi" }}
+authenticate_new_work_conns = true
+{{end}}
+
 allow_ports = 30000-30900
 
 # pool_count in each proxy will change to max_pool_count if they exceed the maximum value
