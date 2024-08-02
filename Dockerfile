@@ -1,14 +1,14 @@
 # Reference:
 #  - multiarch https://actuated.dev/blog/multi-arch-docker-github-actions
-FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.21.1-alpine as builder
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.22.5-alpine as builder
 
 ARG BUILDPLATFORM \
     TARGETOS=linux \
     TARGETARCH=amd64 \
-    FRP_VER=0.51.3 \
+    FRP_VER=0.59.0 \
     GOTEMP_VER=3.11.3 \
-    FRP_MULTIUSER_VER=0.0.3 \
-    FRP_ALLOWED_PORTS_VER=1.0.2
+    FRP_MULTIUSER_VER=0.0.4 \
+    FRP_ALLOWED_PORTS_VER=1.0.3
     # GO_ACME_LEGO_VER=4.9.0
 
 COPY plugins /src
@@ -40,6 +40,7 @@ RUN apk update && apk upgrade --no-cache && \
 
 FROM --platform=${BUILDPLATFORM:-linux/amd64} alpine:latest
 LABEL MAINTAINER="luka.cehovin@gmail.com kex_zh@outlook.com"
+RUN apk update && apk upgrade --no-cache && apk add --no-cache runit
 COPY --from=builder /frp/frps \
                 #   /lego/lego \
                 #   /src/portmanager/portmanager \
@@ -51,7 +52,6 @@ COPY --from=builder /frp/frps \
 COPY templates /data
 COPY etc /etc
 COPY start_runit /sbin/
-RUN apk update && apk upgrade --no-cache && apk add --no-cache runit
 CMD ["/sbin/start_runit"]
 
 # docker build --force-rm -t frps:latest .
