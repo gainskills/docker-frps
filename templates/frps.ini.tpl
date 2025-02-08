@@ -13,16 +13,23 @@ bind_udp_port = {{getenv "FRPS_BIND_UDP_PORT" }}
 kcp_bind_port = {{getenv "FRPS_KCP_PORT" }}
 {{end}}
 
+{{if env.Getenv "FRPS_QUIC_PORT" }}
+# udp port used for QUIC protocol, it can be same with 'bind_port'
+# if not set, QUIC is disabled in frps
+quic_bind_port = {{getenv "FRPS_QUIC_PORT" }}
+quic_keepalive_period =  {{getenv "FRPS_QUIC_KEEPALIVE_PERIOD" "10"}}
+quic_max_idle_timeout =  {{getenv "FRPS_QUIC_MAX_IDLE_TIMEOUT" "30"}}
+quic_max_incoming_streams =  {{getenv "FRPS_QUIC_MAX_INCOMING_STREAMS" "100000"}}
+{{end}}
+
 # specify which address proxy will listen for, default value is same with bind_addr
 # proxy_bind_addr = 127.0.0.1
 
 # if you want to support virtual host, you must set the http port for listening (optional)
 # Note: http port and https port can be same with bind_port
-vhost_http_port = {{getenv "FRPS_VHOST_HTTP_PORT" "80" }} 
 
-{{if env.Getenv "FRPS_VHOST_HTTPS_PORT" }}
-vhost_https_port = {{getenv "FRPS_VHOST_HTTPS_PORT" }}
-{{end}}
+vhost_http_port = {{getenv "FRPS_VHOST_HTTP_PORT" "80" }} 
+vhost_https_port = {{getenv "FRPS_VHOST_HTTPS_PORT" "443" }}
 
 # response header timeout(seconds) for vhost http server, default is 60s
 # vhost_http_timeout = 60
@@ -44,22 +51,31 @@ log_level = {{getenv "FRPS_LOG_LEVEL" "warn" }}
 log_max_days = {{getenv "FRPS_LOG_DAYS" "5" }}
 {{end}}
 
-{{if env.Getenv "FRPS_AUTH_TOKEN" }}
-authentication_method = token
+detailed_errors_to_client = true
+
 token = {{getenv "FRPS_AUTH_TOKEN" "abcdefghi" }}
-authenticate_new_work_conns = true
-{{end}}
+
+authenticate_heartbeats = false
+authenticate_new_work_conns = false
 
 allow_ports = 30000-30900
 
 # pool_count in each proxy will change to max_pool_count if they exceed the maximum value
-max_pool_count = 5
+max_pool_count = {{getenv "FRPS_MAX_POOL_COUNT" "5" }}
 
-max_ports_per_client = {{getenv "FRPS_MAX_PORTS" "0" }}
+max_ports_per_client = {{getenv "FRPS_MAX_PORTS" "5" }}
+
+tls_only = true
 
 subdomain_host = {{getenv "FRPS_SUBDOMAIN_HOST" "frps.com" }}
 
 tcp_mux = {{getenv "FRPS_TCP_MUX" "true" }}
+
+# custom 404 page for HTTP requests
+# custom_404_page = /path/to/404.html
+
+udp_packet_size = 1500
+pprof_enable = false
 
 {{if env.Getenv "FRP_PLUGIN_MULTIUSER" }}
 [plugin.multiuser]

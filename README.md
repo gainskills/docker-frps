@@ -4,21 +4,24 @@ The image includes two useful server plugins that can be enabled dynamically. Th
 
 Environment configuration:
 
- * `FRPS_BIND_ADDRESS` - bind to specific address, defaults to 0.0.0.0
- * `FRPS_BIND_PORT` - bind to specific port, default to 7000
- * `FRPS_BIND_UDP_PORT` - UDP port, feature will be disabled if not set
- * `FRPS_KCP_PORT` - KCP port, feature will be disabled if not set
- * `FRPS_VHOST_HTTP_PORT` - vhost http port, default to 80
- * `FRPS_VHOST_HTTPS_PORT` - vhost https port, default to 443
- * `FRPS_DASHBOARD` - set to enable FRPS dashboard
- * `FRPS_DASHBOARD_ADDRESS` - bind dashboard to specific address, defaults to 0.0.0.0
- * `FRPS_DASHBOARD_USER` - username to access dashboard, defaults to "frpsadmin"
- * `FRPS_DASHBOARD_PASSWORD` - password to access dashboard, defaults to "frpsadmin"
- * `FRPS_AUTH_TOKEN` - token for clients, defaults to "abcdefghi"
- * `FRPS_MAX_PORTS` - max ports per client, defaults to unlimited
- * `FRPS_SUBDOMAIN_HOST` - subdomain for virtual hosts, defaults to "frps.com"
- * `FRPS_TCP_MUX` - TCP multiplexing, defaults to true
- * `FRPS_LINK_NOTIFIER` - Enable to turn on LinkNotifier plugin, defaults to false
+- `FRPS_BIND_ADDRESS` - bind to specific address, defaults to 0.0.0.0
+- `FRPS_BIND_PORT` - bind to specific port, default to 7000
+- `FRPS_BIND_UDP_PORT` - UDP port, feature will be disabled if not set
+- `FRPS_KCP_PORT` - KCP port, feature will be disabled if not set
+- `FRPS_VHOST_HTTP_PORT` - vhost http port, default to 80
+- `FRPS_VHOST_HTTPS_PORT` - vhost https port, default to 443
+- `FRPS_DASHBOARD` - set to enable FRPS dashboard
+- `FRPS_DASHBOARD_ADDRESS` - bind dashboard to specific address, defaults to 0.0.0.0
+- `FRPS_DASHBOARD_USER` - username to access dashboard, defaults to "frpsadmin"
+- `FRPS_DASHBOARD_PASSWORD` - password to access dashboard, defaults to "frpsadmin"
+- `FRPS_AUTH_TOKEN` - token for clients, defaults to "abcdefghi"
+- `FRPS_MAX_PORTS` - max ports per client, defaults to 5, using 0 as unlimited
+- `FRPS_MAX_POOL_COUNT` - defaults to 5
+- `FRPS_SUBDOMAIN_HOST` - subdomain for virtual hosts, defaults to "frps.com"
+- `FRPS_TCP_MUX` - TCP multiplexing, defaults to true
+- `FRPS_LINK_NOTIFIER` - Enable to turn on LinkNotifier plugin, defaults to false
+- `FRPS_LOG_LEVEL` - defaults to warn
+- `FRPS_LOG_DAYS` - default to 5
 
 Note that an external volume has to be mounted to `/data` to make the port reservations and certificates persistent. 
 
